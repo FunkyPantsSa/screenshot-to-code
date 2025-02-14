@@ -1,18 +1,23 @@
-version: '3.9'
+version: '3.9.1'
 
 services:
   backend:
-    build: 
-      context: ./backend
-      dockerfile: Dockerfile
+    # build: 
+    #   context: ./backend
+    #   dockerfile: Dockerfile
     
-    env_file:
-      - .env
+    # env_file:
+    #   - .env
     
     # or 
     # environment:
-      #- BACKEND_PORT=7001   # if you change the port, make sure to also change the VITE_WS_BACKEND_URL at frontend/.env.local
+    #   - BACKEND_PORT=7001   # if you change the port, make sure to also change the VITE_WS_BACKEND_URL at frontend/.env.local
       # - OPENAI_API_KEY=your_openai_api_key
+    image: maqingjie/screenshot-to-code:backend_20250214
+    environment:
+      #- BACKEND_PORT=7001
+      - OPENAI_API_KEY=
+      - OPENAI_BASE_URL=
     
     ports:
       - "${BACKEND_PORT:-7001}:${BACKEND_PORT:-7001}"
@@ -20,8 +25,9 @@ services:
     command: poetry run uvicorn main:app --host 0.0.0.0 --port ${BACKEND_PORT:-7001}
   
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    # build:
+    #   context: ./frontend
+    #   dockerfile: Dockerfile
+    image: maqingjie/screenshot-to-code:frontend_20250214
     ports:
       - "5173:5173"
